@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "hue-and-cry"
+version = "0.1.0"
+description = "A simple search utility meant to replace the Windows file browser search function"
+authors = ["Nick Toothaker <nicktoothaker@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
