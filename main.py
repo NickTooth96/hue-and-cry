@@ -11,11 +11,9 @@ parser.add_argument('--search', action='store_true', help='Search recursively')
 
 args = parser.parse_args()
 
-
+run_start = datetime.datetime.now()
 
 if args.search:
-
-    run_start = datetime.datetime.now()
 
     out = discover.hue(args.key, args.path)
 
@@ -29,5 +27,6 @@ if args.dev:
     listed = discover.threads(key=args.key, search_path=args.path)
     for k,v in listed.items():
         print(f"{k}: {v}")
+    print("Time taken:",datetime.datetime.now()-run_start)
 
 

@@ -90,7 +90,7 @@ def threads(key, search_path, thread_num=1, output={}):
         element = os.path.join(search_path, element)
        
         if os.path.isdir(element):
-            print(f"Thread {thread_num} is searching {element} for {key}")
+            # print(f"Thread {thread_num} is searching {element} for {key}")
             t = threading.Thread(target=threads, args=(key,element, thread_num+1, output))
             t.start()
             t.join()
