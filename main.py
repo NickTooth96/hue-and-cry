@@ -1,18 +1,20 @@
 import datetime
-import sys
+import os
+import argparse
 import src.discover as discover
+
+parser = argparse.ArgumentParser(description='Search for files')
+parser.add_argument('--key', type=str, help='Search term')
+parser.add_argument('--path', type=str, help='Path to search', default=os.path.expanduser('~'))
+
+args = parser.parse_args()
+
+print(args)
 
 
 run_start = datetime.datetime.now()
 
-if len(sys.argv) == 1:
-    out = discover.recursive_list()
-elif len(sys.argv) == 2:
-    out = discover.recursive_list(sys.argv[1])
-elif len(sys.argv) == 3:
-    out = discover.hue(sys.argv[2], sys.argv[1])
-else:
-    print("Invalid number of arguments")
+out = discover.hue(args.key, args.path)
 
 i = 1
 for f in out:
