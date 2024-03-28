@@ -97,12 +97,10 @@ def threads(key, search_path, thread_num=1, output={}, thread_count=0):
         if os.path.isdir(element_path):
             # print(f"Thread {thread_num} is searching {element} for {key}")    
             # time.sleep(1)
-            try:
+            if os.access(element_path, os.R_OK):
                 t = threading.Thread(target=threads, args=(key, element_path, thread_num+1, output, thread_count))
                 t.start()
                 t.join()
-            except:
-                print(f"Error in {element_path}")       
         else:
             idex = len(element_path.split('/'))
             # print(f"{idex} {str(element.split('/')[-1]).rjust(idex * 4)} {element} {cry(key, element)}")
