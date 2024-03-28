@@ -85,33 +85,34 @@ def multi_hue(key, search_path):
     print(dirlist)
 
 def threads(key, search_path, thread_num=1, output={}, thread_count=0):
-    dir_list = os.listdir(search_path)
-    ## sort the list revers order
-    # dir_list = sorted(dir_list, reverse=True)
-    # print(dir_list)
-    # remove elements form list that are hidden files
-    dir_list = [i for i in dir_list if i[0] != '.']
-    thread_count += 1
-    for element in dir_list:
-        element_path = os.path.join(search_path, element)       
-        if os.path.isdir(element_path):
-            # print(f"Thread {thread_num} is searching {element} for {key}")    
-            # time.sleep(1)
-            if os.access(element_path, os.R_OK):
-                t = threading.Thread(target=threads, args=(key, element_path, thread_num+1, output, thread_count))
-                t.start()
-                t.join()
-        else:
-            idex = len(element_path.split('/'))
-            # print(f"{idex} {str(element.split('/')[-1]).rjust(idex * 4)} {element} {cry(key, element)}")
-            if cry(key, element):
-                print(f"Found {key} in {search_path}")
-                score = string_hamming_distance(key, element)
-                output[score] = os.path.join(search_path, element) 
+    if os.access(search_path, os.R_OK) == True:
+
+        dir_list = os.listdir(search_path)
+        ## sort the list revers order
+        # dir_list = sorted(dir_list, reverse=True)
+        # print(dir_list)
+        # remove elements form list that are hidden files
+        dir_list = [i for i in dir_list if i[0] != '.']
+        thread_count += 1
+        for element in dir_list:
+            element_path = os.path.join(search_path, element)       
+            if os.path.isdir(element_path):
+                # print(f"Thread {thread_num} is searching {element} for {key}")    
+                # time.sleep(1)
+                    t = threading.Thread(target=threads, args=(key, element_path, thread_num+1, output, thread_count))
+                    t.start()
+                    t.join()
             else:
-                pass
-    output = dict(sorted(output.items()))    
-    return output, thread_num
+                idex = len(element_path.split('/'))
+                # print(f"{idex} {str(element.split('/')[-1]).rjust(idex * 4)} {element} {cry(key, element)}")
+                if cry(key, element):
+                    print(f"Found {key} in {search_path}")
+                    score = string_hamming_distance(key, element)
+                    output[score] = os.path.join(search_path, element) 
+                else:
+                    pass
+        output = dict(sorted(output.items()))    
+        return output, thread_num
 
 def string_hamming_distance(s1, s2):
     s1 = s1.strip().lower()
