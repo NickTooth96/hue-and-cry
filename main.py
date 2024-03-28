@@ -24,8 +24,8 @@ if args.search:
     print("Time taken:",datetime.datetime.now()-run_start)
 
 if args.dev:
-    listed = discover.threads(key=args.key, search_path=args.path)
-    for k,v in listed.items():
+    listed = discover.threads(key=args.key, search_path=args.path, thread_num=1)
+    for k,v in listed[0].items():
         print(f"{k}: {v}")
     print("Time taken:",datetime.datetime.now()-run_start)
 

@@ -84,25 +84,27 @@ def multi_hue(key, search_path):
     dirlist = get_list_as_dictionary(search_path)
     print(dirlist)
 
-def threads(key, search_path, thread_num=1, output={}):
+def threads(key, search_path, thread_num=1, output={}, thread_count=0):
     dir_list = os.listdir(search_path)
+    thread_count += 1
     for element in dir_list:
-        element = os.path.join(search_path, element)
-       
+        element = os.path.join(search_path, element)       
         if os.path.isdir(element):
-            # print(f"Thread {thread_num} is searching {element} for {key}")
-            t = threading.Thread(target=threads, args=(key,element, thread_num+1, output))
+            # print(f"Thread {thread_num} is searching {element} for {key}")            
+            t = threading.Thread(target=threads, args=(key,element, thread_num+1, output, thread_count))
             t.start()
             t.join()
         else:
+            idex = len(element.split('/'))
+            # print(f"{idex} {str(element.split('/')[-1]).rjust(idex * 4)} {element} {cry(key, element)}")
             if cry(key, element):
-                print(f"Found {key} in {search_path}")
+                # print(f"Found {key} in {search_path}")
                 score = string_hamming_distance(key, element.split('/')[-1])
                 output[score] = os.path.join(search_path, element) 
             else:
                 pass
-    output = dict(sorted(output.items()))
-    return output
+    output = dict(sorted(output.items()))    
+    return output, thread_num
 
 def string_hamming_distance(s1, s2):
     s1 = s1.strip().lower()
