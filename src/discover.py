@@ -85,7 +85,7 @@ def multi_hue(key, search_path):
     print(dirlist)
 
 def threads(key, search_path, thread_num=1, output={}, thread_count=0):
-    if os.access(search_path, os.R_OK) == True:
+    if os.access(search_path, os.R_OK) == True and os.access(search_path, os.W_OK) == True:
 
         dir_list = os.listdir(search_path)
         ## sort the list revers order
