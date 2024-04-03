@@ -3,6 +3,8 @@ import threading
 import time
 
 
+ABC = {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e', 6: 'f', 7: 'g', 8: 'h', 9: 'i', 10: 'j', 11: 'k', 12: 'l', 13: 'm', 14: 'n', 15: 'o', 16: 'p', 17: 'q', 18: 'r', 19: 's', 20: 't', 21: 'u', 22: 'v', 23: 'w', 24: 'x', 25: 'y', 26: 'z'}
+
 def get_list_as_dictionary_recursive(src=os.getcwd()):
     """returns list of all files in directory
 
@@ -108,6 +110,12 @@ def threads(key, search_path, thread_num=1, output={}, thread_count=0):
                 if cry(key, element):
                     print(f"Found {key} in {search_path}")
                     score = string_hamming_distance(key, element)
+
+                    i = 1
+                    while score in output.keys():
+                        score += (i * 0.01)
+                        i += 1
+
                     output[score] = os.path.join(search_path, element) 
                 else:
                     pass
