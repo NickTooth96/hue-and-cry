@@ -11,7 +11,10 @@ def drive_discovery_rec(path, files=[]):
         if os.path.isfile(element_path):
             files.append(element_path)
         elif os.path.isdir(element_path):
-            drive_discovery_rec(element_path, files)
+            try:
+                drive_discovery_rec(element_path, files)
+            except PermissionError:
+                pass
 
     return files, datetime.datetime.now()-start_run
 
