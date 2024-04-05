@@ -20,9 +20,12 @@ def hue(key,search_path=os.path.expanduser('~'), thread_count=1, possible_matche
         else:
             if file[0] != '.':
                 # print(f"Thread {thread_count} looking in: {directory}")
-                t = threading.Thread(target=hue, args=(key,file_path, thread_count + 1, possible_matches))
-                t.start()
-                t.join()       
+                try:
+                    t = threading.Thread(target=hue, args=(key,file_path, thread_count + 1, possible_matches))
+                    t.start()
+                    t.join()      
+                except PermissionError:
+                    pass 
 
     return possible_matches
 
